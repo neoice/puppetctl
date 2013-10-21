@@ -69,6 +69,7 @@ enable(){
       fi
 
       rm -f /var/lib/puppet/state/disabled.at
+      puppet agent --enable
       log_print "Puppet has been enabled"
    else
       log_print "Puppet is already enabled"
@@ -277,6 +278,7 @@ disable(){
       job=$(echo "$output" | sed -e 's/job \([[:digit:]]*\) at.*/\1/g')
       if [ ! -z "$job" ]; then
          echo $job > /var/lib/puppet/state/disabled.at.job
+         puppet agent --disable
 
          if [ ! -s /var/lib/puppet/state/disabled.at.job ]; then
             enable
